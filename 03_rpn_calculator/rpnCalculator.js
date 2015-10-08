@@ -32,7 +32,7 @@ RPNCalculator.prototype.divide = function() {
 	var pop1 = this.pop();
 	var pop2 = this.pop();
 
-	this.push(pop2/pop1);
+	this.push(pop2 / pop1);
 };
 
 RPNCalculator.prototype.times = function() {
