@@ -10,37 +10,27 @@ RPNCalculator.prototype.value = function() {
 
 //add functions to it's prototype:
 RPNCalculator.prototype.plus = function() {
-	this.checkStash();
-	var pop1 = this.pop();
-	//console.log("1: " + this);
-	var pop2 = this.pop();
-	//console.log("2: " + this);
-	this.push(pop2 + pop1);
-	//console.log("3: " + this);
+	this.push(this.calculate(this, function(a, b) {
+		return b+a;
+	}));
 };
 
 RPNCalculator.prototype.minus = function() {
-	this.checkStash();
-	var pop1 = this.pop();
-	var pop2 = this.pop();
-
-	this.push(pop2 - pop1);
+	this.push(this.calculate(this, function(a, b) {
+		return b-a;
+	}));
 };
 
 RPNCalculator.prototype.divide = function() {
-	this.checkStash();
-	var pop1 = this.pop();
-	var pop2 = this.pop();
-
-	this.push(pop2 / pop1);
+	this.push(this.calculate(this, function(a, b) {
+		return b/a;
+	}));
 };
 
 RPNCalculator.prototype.times = function() {
-	this.checkStash();
-	var pop1 = this.pop();
-	var pop2 = this.pop();
-
-	this.push(pop2 * pop1);
+	this.push(this.calculate(this, function(a, b) {
+		return b*a;
+	}));
 };
 
 RPNCalculator.prototype.checkStash = function() {
@@ -48,3 +38,11 @@ RPNCalculator.prototype.checkStash = function() {
 		throw ("rpnCalculator is empty");
 	}
 };
+
+RPNCalculator.prototype.calculate = function(calc, operation) {
+	calc.checkStash();
+	var pop1 = calc.pop();	//same as this.pop()
+	var pop2 = calc.pop();
+	return operation(pop1, pop2);
+
+}
