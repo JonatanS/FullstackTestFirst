@@ -19,13 +19,13 @@ Mammal.prototype.haveBaby = function() {
 //2. Cat
 function Cat (name, color) {
 	//'call' the Mamal constructor, instead of rewriting
-	// this.name.
 	Mammal.call(this, name);
 	this.color = color;
 
 	//!!!don't know how to solve this one:!!!
 	//'Cat class should use Object.create to inherit methods from Mammal'
     //Cat.prototype.prototype = Object.create( Mammal );
+    //Cat.protoype.constructor = Cat;
 
 	//override the haveBaby function:
 	this.haveBaby = function(color) {
