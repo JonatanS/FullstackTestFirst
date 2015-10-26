@@ -29,5 +29,5 @@ At this point, you should be familiar with Objects and the idea that functions a
 ###Additional Resources:
 
 - [Object Playground](http://www.objectplayground.com/)
-- [A Plain English Guide to JavaScript Prototypes](A Plain English Guide to JavaScript Prototypes)
+- [A Plain English Guide to JavaScript Prototypes](http://sporto.github.io/blog/2013/02/22/a-plain-english-guide-to-javascript-prototypes/)
 
