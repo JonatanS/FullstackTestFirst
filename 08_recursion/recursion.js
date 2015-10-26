@@ -36,6 +36,7 @@ function fib(num) {
 }
 
 
+
 function type(obj) {
 	var o = {};
 	//return o.toString.call(obj).split(' ')[1];
@@ -43,39 +44,51 @@ function type(obj) {
 	return o.toString.call(obj).replace(/\[\b[a-z]+\b\s/,  '').replace(/\]/, '');
 };
 
-//would have never guessed to use String() - thanks to this discussion:
+//would not have guessed to use String() - thanks to this discussion:
 // http://discuss.fullstackacademy.com/t/08-recursion-stringify-casting-input-as-a-string/232
 function stringify(obj) {
 	var argsCounter = arguments.length;
+	var result = '';
 	//base case: no more incrementing:
 	if (argsCounter === 1) {
 		//console.log("Entering "+ String(obj));
 
-		var result = String(type(obj)).toLowerCase();
+		var objectType = String(type(obj)).toLowerCase();
 
-		if(result === 'string') {
-			result = '"' + obj+ '"';
+		if(objectType === 'string') {
+			result += '"' + obj+ '"';
 		}
-		else if (result === 'object') {
-			//do sth
-			debugger;
-			console.log(Object.keys(obj).length);
-			for(var ii = 0; ii < Object.keys(obj).length; ii++) {
-				stringify(obj[ii]);
-			}
-		}
-		else if(result === 'array') {
+
+		else if(objectType === 'array') {
 			console.log(obj.length);
-			for(var ii = 0; ii < obj.length; ii++) {
-				stringify(obj[ii]);
+			result += "["
+			for(var i = 0; i < obj.length; i++) {
+				result += stringify(obj[i]);
+				result += ",";
 			}
+			//replace last ',' with ']':
+			result = replaceLastChar(result, "]");
 		}
+
+		else if (objectType === 'object') {
+			console.log(Object.keys(obj).length);
+			result +="{";
+			for(var i in obj) {
+				//result += stringify(i) + ": " + stringify(obj[i]) + ",";
+				result += '"' + i + '"' + ": " + stringify(obj[i]) + ",";
+			}
+
+			result = replaceLastChar(result, "}");
+		}
+
 		else {
-				result = String(obj);
+				result += String(obj);
 		}
+
 		return result;
 	}
 
+	//recursive function:
 	else {
 		console.log("Number of arguments: " + argsCounter);
 		var retVal = stringify()
@@ -85,6 +98,11 @@ function stringify(obj) {
 }
 
 
-
+//helper Function:
+function replaceLastChar(str, newChar) {
+	var temp = str.substr(0,str.length-1) + newChar;
+	console.log("temp: " + temp);
+	return temp;
+}
 
 
