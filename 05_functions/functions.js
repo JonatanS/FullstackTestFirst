@@ -1,74 +1,71 @@
-// Functions.js
-
-//use Array.prototype.slice.call(arguments) to retreive arguments as array.
 function concat_string() {
-	return Array.prototype.slice.call(arguments).join('');
+	var outString = "";
+	for(var i in arguments) {
+		outString += arguments[i];
+	}
+	return outString;
 }
 
-//use () after arguments[i] to call the function
 function yourFunctionRunner() {
-	var returnArr = [];
-	for (var i = 0; i < arguments.length; i++) {
-		if (isFunction(arguments[i])) {
-			returnArr.push(arguments[i]());
+	var outString = "";
+	for(var i in arguments) {
+
+		if (typeof(arguments[i]) === 'function')
+		{
+			//call it:
+			outString += arguments[i]();
 		}
+	}
+	return outString;
+}
+
+
+function makeAdder(val) {
+	return function(anotherVal) {
+		return val + anotherVal;
 	};
-	return returnArr.join('');
 }
 
 
-var makeAdder = function(A) {
-	var numInClosure = A;	//this was the trick. Set the number equal to makeAdder(arg) first time around, not to 0!
-	var newFunc = function(A) {
-		//debugger;
-		console.log('num: ', numInClosure);
-		if(!isNaN(A)) {
-			numInClosure += A;
-		}
-		return numInClosure;
+
+function once(funcToExecuteOnce) {
+	var Counter = 0;
+		return function() {	
+			if (Counter === 0) {
+				Counter++;
+				return funcToExecuteOnce();
+		};
 	}
-	return newFunc;
 }
 
 
-var once = function(func) {
-	var ranBefore = false; //thanks to http://discuss.fullstackacademy.com/t/trouble-with-once/280/13?u=jonatan_schumacher
-    var newFunc = function() {
-        
-        if(!ranBefore) func();
-        ranBefore = true;
-    }
-    return newFunc;
-}
-
-
-var createObjectWithTwoClosures = function()
-{
+//return an object with 3 functions
+function createObjectWithTwoClosures() {
+	//create variable here!!!
 	var val = 0;
+
 	var obj = {};
-	obj.oneIncrementer = function() {
-			val++;
-		}
-	obj.tensIncrementer = function() {
-		val+=10;
-	}
 	obj.getValue = function(){
 		return val;
-	};
+	}
+	obj["oneIncrementer"] = function() {
+		val+=1;;
+	}
+	obj.tensIncrementer = function() {
+		val +=10;
+	}
 	return obj;
 }
 
 
 
-
-
-/*************************
-*****  OTHER STUFF  ******
-*************************/
-
-//http://stackoverflow.com/questions/5999998/how-can-i-check-if-a-javascript-variable-is-function-type
-function isFunction(functionToCheck) {
- var getType = {};
- return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
+/////
+function three(funcToExecuteThrice) {
+	var Counter = 0;
+	return function(){
+		if (Counter < 3) {
+			Counter++;
+			return funcToExecuteThrice();
+		} 
+	}
 }
-
