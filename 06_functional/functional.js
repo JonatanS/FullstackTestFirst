@@ -1,91 +1,93 @@
-// 06_Functional 
+function doubler(val) {return val * 2;}
 
-//1. map array:
-function doubler(val) {
-	return val * 2;
-}
-
-function map(array, operation) {
-	var returnArray = [];
-	for (var i = 0; i < array.length; i++) {
-		returnArray.push(operation(Number(array[i])));
+function map(arr, func) {
+	for(var i in arr) {
+		arr[i] = func(arr[i]);
 	}
+	return arr;
+}
 
-	return returnArray;
+//alternative function using map directly
+function mapEfficient(arr, func) {
+	return arr.map(func);
 }
 
 
-//2. filter array:
-function filter(collection, boolFunction) {
-	var returnCollection = [];
-	for (var i = 0; i < collection.length; i++) {
-		if(boolFunction(collection[i])) {
-			returnCollection.push(collection[i]);
+// function filter(arr, func) {
+// 	var newArr = [];
+// 	for (var i in arr) {
+// 		//console.log(!func(arr[i]));
+// 		if(func(arr[i])) {
+// 			newArr.push(arr[i]);
+// 		}
+// 	}
+// 	return newArr;
+// }
+
+
+function filter(arr, func) {
+	var newArr = arr.filter(func);
+	return newArr;
+}
+
+
+function contains(arr, val) {
+	for(var i in arr) {
+		if (arr[i] === val) {
+			return true;
 		}
 	}
-	return returnCollection;
-}
-
-
-//3. contains array
-function contains(collection, val) {
-	
-	for( var i in collection ) {
-		//work for both objects and arrays:
-	    if (collection.hasOwnProperty(i)){
-	          if(collection[i] === val) return true;
-	    }
-	}
-	//if value was not found:
 	return false;
 }
 
-
-//4. countWords
 function countWords(str) {
-	return str.split(' ').length;
+	return str.split(" ").length;
 }
 
 
-//5. reduce:
-function reduce(array, startVal, reducerFunction) {
-	var currentVal = startVal;
-	for (var i = 0; i < array.length; i++) {
-		currentVal = reducerFunction(array[i], currentVal);
+function reduce(arr, val, func) {
+	if(arr.length === 0) {
+		return val;
 	}
-	return currentVal;
+
+	val = func(arr[arr.length -1], val);
+	arr.pop();
+	return reduce(arr, val, func);
 }
 
-function countWordsInReduce(str, currentVal) {
-	return currentVal + countWords(str); 
+function countWordsInReduce(sentence, wordCounter) {
+	return wordCounter + countWords(sentence);
 }
 
-function sum(array) {
-	return reduce(array, 0, function(val1, val2) {
-		return val1 + val2;
+function sum(arr) {
+	return reduce(arr, 0, function(a, b) {
+		return a + b;
 	});
 }
 
-
-//6. every:
-function every(array, boolFunction) {
-	for (var i = 0; i < array.length; i++) {
-		if (boolFunction(array[i]) == false) {
-			return false;
+function every(arr, func) {
+	var returnValue = true;
+	for (var i in arr) {
+		if (!func(arr[i])) {
+			returnValue = false;
 		}
 	}
-	return true;
+	return returnValue;
 }
 
-
-//7. any:
-function any() {
-	//if (typeof(arguments[1]) === 'function') {
-		for (var i = 0; i < arguments[0].length; i++) {
-			if(arguments[1](arguments[0][i]) === true) {
-				return true;
-			}
-		}
-	//}
-	return false;
+function any(arr, func) {
+	var returnValue = false;
+	arr.forEach(function(e, index){
+		if(func(e)) returnValue = true;
+		console.log(index + ": " + e + " returns " + func(e));
+	});
+	return returnValue;
 }
+/*
+0: 1 returns false
+1: 11 returns false
+2: 29 returns false
+0: 1 returns false
+1: 10 returns true
+2: 29 returns false
+*/
