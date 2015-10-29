@@ -164,5 +164,5 @@ OUTPUT:
 Note: The Hackerrank Test will look at the empty object's
 */
 function newObj(ConstructorFunction) {
-	return = new ConstructorFunction();
+	return new ConstructorFunction();
 }
