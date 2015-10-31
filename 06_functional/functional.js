@@ -182,4 +182,3 @@ Note: The Hackerrank Test will look at the empty object's
 function newObj(ConstructorFunction) {
 	return new ConstructorFunction();
 }
->>>>>>> 39377c4dac6b4b9a057cc8beed9e164a80fbae69
