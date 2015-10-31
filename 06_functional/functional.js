@@ -1,91 +1,75 @@
 // 06_Functional 
 
-//1. map array:
 function doubler(val) {
 	return val * 2;
 }
 
-function map(array, operation) {
-	var returnArray = [];
-	for (var i = 0; i < array.length; i++) {
-		returnArray.push(operation(Number(array[i])));
-	}
-
-	return returnArray;
+function map(arr, func) {
+	var newArr = arr.map(func);
+	return newArr;
 }
 
 
-//2. filter array:
-function filter(collection, boolFunction) {
-	var returnCollection = [];
-	for (var i = 0; i < collection.length; i++) {
-		if(boolFunction(collection[i])) {
-			returnCollection.push(collection[i]);
+function filter(arr, func) {
+	var newArr = arr.filter(func);
+	return newArr;
+}
+
+
+var contains = function(arr, val) {
+	for (var i in arr) {
+		if (arr[i] === val) {
+			return true;
 		}
 	}
-	return returnCollection;
-}
-
-
-//3. contains array
-function contains(collection, val) {
-	
-	for( var i in collection ) {
-		//work for both objects and arrays:
-	    if (collection.hasOwnProperty(i)){
-	          if(collection[i] === val) return true;
-	    }
-	}
-	//if value was not found:
 	return false;
 }
 
 
-//4. countWords
-function countWords(str) {
-	return str.split(' ').length;
+function countWords(words) {
+	return words.split(' ').length;
 }
 
 
-//5. reduce:
-function reduce(array, startVal, reducerFunction) {
-	var currentVal = startVal;
-	for (var i = 0; i < array.length; i++) {
-		currentVal = reducerFunction(array[i], currentVal);
-	}
-	return currentVal;
-}
+function reduce(arr, startVal, func) {
 
-function countWordsInReduce(str, currentVal) {
-	return currentVal + countWords(str); 
-}
+	//base case
+	if(arr.length === 0) return startVal;
 
-function sum(array) {
-	return reduce(array, 0, function(val1, val2) {
-		return val1 + val2;
-	});
+	//call reduce recursively:
+	var result = func(arr[arr.length - 1], startVal);
+	console.log(result);
+	arr.pop();
+	return reduce(arr, result, func);
 }
 
 
-//6. every:
-function every(array, boolFunction) {
-	for (var i = 0; i < array.length; i++) {
-		if (boolFunction(array[i]) == false) {
+function countWordsInReduce(words, prevVal) {
+	return countWords(words) + prevVal;
+}
+
+
+//use reduce function to sum numbers in array
+function sum(arr) {
+	return reduce(arr, 0, function(a,b){return a + b;});
+}
+
+
+function every(arr, func) {
+	for(var i in arr) {
+		if(!func(arr[i])) {
 			return false;
 		}
 	}
 	return true;
+	//return arr.every(func);
 }
 
-
-//7. any:
-function any() {
-	//if (typeof(arguments[1]) === 'function') {
-		for (var i = 0; i < arguments[0].length; i++) {
-			if(arguments[1](arguments[0][i]) === true) {
-				return true;
-			}
+function any(arr, func) {
+	for (var i in arr) {
+		if (func(arr[i])) {
+			return true;
 		}
-	//}
+	}
 	return false;
 }
